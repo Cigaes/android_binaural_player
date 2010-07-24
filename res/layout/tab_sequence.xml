@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/tab_sequence"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  >
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="0"
+    >
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="File: "
+      />
+    <TextView
+      android:id="@+id/tab_seq_file_name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      />
+  </LinearLayout>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="0"
+    >
+    <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="Dir: "
+      />
+    <TextView
+      android:id="@+id/tab_seq_dir_name"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      />
+  </LinearLayout>
+  <ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:background="#202020"
+    >
+    <TextView
+      android:id="@+id/tab_seq_description"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="10sp"
+      />
+  </ScrollView>
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="0"
+    android:layout_gravity="center"
+    >
+    <Button android:id="@+id/tab_seq_play"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:drawableTop="@android:drawable/ic_media_play"
+      android:clickable="false"
+      />
+  </LinearLayout>
+</LinearLayout>
+

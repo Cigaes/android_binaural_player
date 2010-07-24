@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns="http://www.w3.org/2000/svg" version="1.1"
+   width="720" height="720">
+  <!-- fond gauche -->
+  <path fill="red" stroke="none" d="
+    m 270,556
+    c 0,0 -32,33 -67,33
+    c -64,0 -195,-188 -195,-262
+    c 0,-111 64,-207 157,-207
+    c 87,0 109,121 123,176
+    c -27,67 30,169 -20,260 z"
+    />
+  <!-- fond droite -->
+  <path fill="#00C000" stroke="none" d="
+    M 450,556
+    c 0,0 32,33 67,33
+    c 64,0 195,-188 195,-262
+    c 0,-111 -64,-207 -157,-207
+    c -87,0 -109,121 -123,176
+    c 27,67 -30,169 20,260 z"
+    />
+  <!-- contour gauche -->
+  <path fill="none" stroke="black" stroke-width="15"
+    stroke-linecap="round" stroke-linejoin="miter" d="
+    M 270,556
+    c 0,0 -32,33 -67,33
+    c -64,0 -195,-188 -195,-262
+    c 0,-111 64,-207 157,-207
+    c 87,0 109,121 123,176"
+    />
+  <!-- contour droit -->
+  <path fill="none" stroke="black" stroke-width="15"
+    stroke-linecap="round" stroke-linejoin="miter" d="
+    M 450,556
+    c 0,0 32,33 67,33
+    c 64,0 195,-188 195,-262
+    c 0,-111 -64,-207 -157,-207
+    c -87,0 -109,121 -123,176"
+    />
+  <!-- chemin gauche -->
+  <path fill="none" stroke="black" stroke-width="7"
+    stroke-linecap="round" stroke-linejoin="round" d="
+    M 134,439 c 39,15 70,34 90,69
+    M 58,410
+    c 0,0 -28,-51 -28,-79
+    c 0,-82 64,-162 124,-162
+    c 66,0 85,43 85,75
+    c 0,41 -86,119 -86,119
+    c 35,0 67,-35 86,-35
+    c 8,0 12,7 12,19
+    c 0,18 -11,27 -11,45
+    c 0,19 23,26 23,50
+    c 0,15 -4,22 -20,22
+    c -18,0 -29,-63 -67,-63
+    c -15,0 -17,9 -33,9
+    c -18,0 -27,-11 -27,-29
+    c 0,-59 97,-111 97,-111" />
+  <!-- chemin droit -->
+  <path fill="none" stroke="black" stroke-width="7"
+    stroke-linecap="round" stroke-linejoin="round" d="
+    M 586,439 c -39,15 -70,34 -90,69
+    M 662,410
+    c -0,0 28,-51 28,-79
+    c -0,-82 -64,-162 -124,-162
+    c -66,0 -85,43 -85,75
+    c -0,41 86,119 86,119
+    c -35,0 -67,-35 -86,-35
+    c -8,0 -12,7 -12,19
+    c -0,18 11,27 11,45
+    c -0,19 -23,26 -23,50
+    c -0,15 4,22 20,22
+    c 18,0 29,-63 67,-63
+    c 15,0 17,9 33,9
+    c 18,0 27,-11 27,-29
+    c -0,-59 -97,-111 -97,-111" />
+  <!-- spirale -->
+  <g transform="translate(360,431)">
+    <circle fill="yellow" stroke="black" stroke-width="10"
+      cx="0" cy="0" r="150" />
+    <g fill="none" stroke="black" stroke-width="8" stroke-linecap="round">
+      <path d="M 0,0 c 60,0 120,90 0,150" transform="rotate(0)"/>
+      <path d="M 0,0 c 60,0 120,90 0,150" transform="rotate(30)"/>
+      <path d="M 0,0 c 60,0 120,90 0,150" transform="rotate(60)"/>
+      <path d="M 0,0 c 60,0 120,90 0,150" transform="rotate(90)"/>
+      <path d="M 0,0 c 60,0 120,90 0,150" transform="rotate(120)"/>
+      <path d="M 0,0 c 60,0 120,90 0,150" transform="rotate(150)"/>
+      <path d="M 0,0 c 60,0 120,90 0,150" transform="rotate(180)"/>
+      <path d="M 0,0 c 60,0 120,90 0,150" transform="rotate(210)"/>
+      <path d="M 0,0 c 60,0 120,90 0,150" transform="rotate(240)"/>
+      <path d="M 0,0 c 60,0 120,90 0,150" transform="rotate(270)"/>
+      <path d="M 0,0 c 60,0 120,90 0,150" transform="rotate(300)"/>
+      <path d="M 0,0 c 60,0 120,90 0,150" transform="rotate(330)"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+  package="org.cigaes.binaural_player"
+  android:versionCode="1"
+  android:versionName="1.0">
+  <application android:label="Binaural player" android:icon="@drawable/icon">
+    <service android:name="Binaural_player" android:process=":player">
+      <intent-filter>
+	<action android:name="android.intent.action.RUN"/>
+	<category android:name="android.intent.category.DEFAULT"/>
+	<data android:mimeType="application/x-sbagen-sequence"/>
+      </intent-filter>
+    </service>
+    <activity android:name="Binaural_player_GUI"
+      android:label="Binaural player" android:exported="true">
+      <intent-filter>
+	<action android:name="android.intent.action.MAIN"/>
+	<category android:name="android.intent.category.LAUNCHER"/>
+      </intent-filter>
+      <intent-filter>
+	<action android:name="android.intent.action.VIEW"/>
+	<category android:name="android.intent.category.DEFAULT"/>
+	<data android:mimeType="application/x-sbagen-sequence"/>
+      </intent-filter>
+    </activity>
+  </application>
+</manifest> 

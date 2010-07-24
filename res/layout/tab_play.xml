@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  android:id="@+id/tab_play"
+  android:orientation="vertical"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  >
+  <ScrollView
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="1"
+    android:background="#202020"
+    >
+    <TextView
+      android:id="@+id/tab_play_description"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textSize="10sp"
+      />
+  </ScrollView>
+  <TextView
+    android:id="@+id/tab_play_time"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    />
+  <ProgressBar
+    android:id="@+id/tab_play_progress"
+    style="?android:attr/progressBarStyleHorizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:max="100"
+    />
+
+  <LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:layout_weight="0"
+    android:layout_gravity="center"
+    >
+    <Button android:id="@+id/tab_play_pause"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:drawableTop="@android:drawable/ic_media_pause"
+      android:clickable="false"
+      />
+    <Button android:id="@+id/tab_play_stop"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:drawableTop="@android:drawable/ic_media_next"
+      android:clickable="false"
+      />
+  </LinearLayout>
+</LinearLayout>

@@ -1,0 +1,66 @@
+Binaural player
+===============
+
+About and copyright
+-------------------
+
+  Binaural player is an Android application to generate binaural beats
+  <URL: http://en.wikipedia.org/wiki/Binaural_beats >.
+
+  It was mostly written by Nicolas George <nicolas.george@normalesup.org>.
+
+  It is based on SBaGen <URL: http://uazu.net/sbagen/ > by Jim Peters.
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; version 2.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    The text of the licence can be read on the GNU website
+    <URL: http://www.gnu.org/licenses/gpl-2.0.txt >.
+    The SHA1 of the text is either
+    4cc77b90af91e615a64ae04893fdffa7939db84c or
+    dfac199a7539a404407098a2541b9482279f690d.
+
+
+Usage
+-----
+
+  It should be completely straightforward: install the application on the
+  device; put some binaural sequences on the storage space of the device as
+  files with the ".sbg" extension. Start the application, select the file in
+  the list, put the headphones and click on play.
+
+
+Technical details
+-----------------
+
+  Android interface
+
+    At this time, I am quite recent to Android development. Therefore,
+    expect a few glitches.
+
+  SBaGen porting
+
+    SBaGen is originally a standalone program, which is not usable in an
+    Android application. It was necessary to turn it into a library, with
+    specific entry points. Most of the work was to replace turn the calls to
+    exit into a correct error-reporting scheme and remove memory leaks.
+
+    To make this work manageable, a lot of features had to be removed. This
+    version does not support mixing of input files, and only accepts simple
+    sequence files in start-to-end (-SE) mode.
+
+    This version of sbagen.c can probably be useful for applications in
+    other embedded contexts.
+
+  Build and Makefile
+
+    This project does not use the official Android build system and
+    directory layout. It rather uses a simple Makefile (with GNU
+    extensions). It can be used as an example on how to build an Android
+    application step by step.
