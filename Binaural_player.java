@@ -270,7 +270,7 @@ public class Binaural_player extends Service implements Handler.Callback
 		    String[] c = sequence_time_parser.group(1).split(":");
 		    int r = 0;
 		    for(int j = 0; j < c.length; j++)
-			r = r * 60 + Integer.decode(c[j]);
+			r = r * 60 + Integer.parseInt(c[j]);
 		    return r * 1000;
 		}
 		break;
