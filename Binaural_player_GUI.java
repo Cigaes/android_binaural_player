@@ -179,6 +179,11 @@ public class Binaural_player_GUI extends TabActivity
     TextView tab_seq_description;
     Button tab_seq_button_play;
 
+    EditText tab_edit_duration;
+    EditText tab_edit_pink;
+    EditText[] tab_edit_tones;
+    Button tab_edit_button_play;
+
     TextView tab_play_description;
     TextView tab_play_time;
     ProgressBar tab_play_progress;
@@ -194,12 +199,23 @@ public class Binaural_player_GUI extends TabActivity
 	tab_host = getTabHost();
 	LayoutInflater ifl = LayoutInflater.from(this);
 	ifl.inflate(R.layout.tab_sequence, tab_host.getTabContentView(), true);
+	ifl.inflate(R.layout.tab_edit, tab_host.getTabContentView(), true);
 	ifl.inflate(R.layout.tab_play, tab_host.getTabContentView(), true);
 	tab_seq_file_name = (TextView)findViewById(R.id.tab_seq_file_name);
 	tab_seq_dir_name = (TextView)findViewById(R.id.tab_seq_dir_name);
 	tab_seq_description = (TextView)findViewById(R.id.tab_seq_description);
 	tab_seq_button_play = (Button)findViewById(R.id.tab_seq_play);
 	tab_seq_button_play.setOnClickListener(this);
+	tab_edit_duration = (EditText)findViewById(R.id.tab_edit_duration);
+	tab_edit_pink = (EditText)findViewById(R.id.tab_edit_pink);
+	int[] te_id = { R.id.tab_edit_f1_carrier, R.id.tab_edit_f1_beat,
+	    R.id.tab_edit_f1_vol, R.id.tab_edit_f2_carrier,
+		R.id.tab_edit_f2_beat, R.id.tab_edit_f2_vol };
+	tab_edit_tones = new EditText[te_id.length];
+	for(int i = 0; i < te_id.length; i++)
+	    tab_edit_tones[i] = (EditText)findViewById(te_id[i]);
+	tab_edit_button_play = (Button)findViewById(R.id.tab_edit_play);
+	tab_edit_button_play.setOnClickListener(this);
 	tab_play_description =
 	    (TextView)findViewById(R.id.tab_play_description);
 	tab_play_time = (TextView)findViewById(R.id.tab_play_time);
@@ -217,6 +233,9 @@ public class Binaural_player_GUI extends TabActivity
 	tab_host.addTab(tab_host.newTabSpec("Sequence")
 		.setIndicator("Sequence")
 		.setContent(R.id.tab_sequence));
+	tab_host.addTab(tab_host.newTabSpec("Edit")
+		.setIndicator("Edit")
+		.setContent(R.id.tab_edit));
 	tab_host.addTab(tab_host.newTabSpec("Play")
 		.setIndicator("Play")
 		.setContent(R.id.tab_play));
@@ -262,7 +281,9 @@ public class Binaural_player_GUI extends TabActivity
 
     public void onClick(View v) {
 	if(v == tab_seq_button_play) {
-	    on_click_play_button();
+	    on_click_seq_play_button();
+	} else if(v == tab_edit_button_play) {
+	    on_click_edit_play_button();
 	} else if(v == tab_play_button_pause) {
 	    on_click_pause_button();
 	} else if(v == tab_play_button_stop) {
@@ -272,10 +293,45 @@ public class Binaural_player_GUI extends TabActivity
 	}
     }
 
-    void on_click_play_button()
+    void on_click_seq_play_button()
     {
 	if(sequence == null)
 	    return;
+	play_sequence(sequence);
+    }
+
+    void on_click_edit_play_button()
+    {
+	try {
+	    int dur = Integer.parseInt(tab_edit_duration.getText().toString());
+	    if(dur < 1)
+		return;
+	    String pink = tab_edit_pink.getText().toString();
+	    String decl = "beat:";
+	    if(!pink.equals("0"))
+		decl += " pink/" + pink;
+	    for(int i = 0; i < tab_edit_tones.length; i += 3) {
+		String carrier = tab_edit_tones[i].getText().toString();
+		String beat = tab_edit_tones[i + 1].getText().toString();
+		String vol = tab_edit_tones[i + 2].getText().toString();
+		if(!beat.startsWith("-"))
+		    beat = "+" + beat;
+		if(!vol.equals("0"))
+		    decl += " " + carrier + beat + "/" + vol;
+	    }
+	    int fad = dur - 1;
+	    String fade = String.format("%02d:%02d:00", fad / 60, fad % 60);
+	    String end = String.format("%02d:%02d:00", dur / 60, dur % 60);
+	    String seq = String.format("-SE\n%s\noff: -\nNOW beat\n+%s off\n",
+		decl, end);
+	    play_sequence(seq);
+	} catch(Exception e) {
+	    error_dialog_show(e.toString());
+	}
+    }
+
+    void play_sequence(String sequence)
+    {
 	Message msg = Message.obtain(null, 'R');
 	Bundle b = new Bundle(1);
 	b.putString("seq", sequence);

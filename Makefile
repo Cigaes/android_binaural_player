@@ -17,6 +17,7 @@ APP = Binaural_player
 RESOURCES = \
 	res/drawable/icon.png \
 	res/layout/tab_sequence.xml \
+	res/layout/tab_edit.xml \
 	res/layout/tab_play.xml
 NATIVE_LIBS = \
 	tmp/libs/armeabi/libsbagen.so
