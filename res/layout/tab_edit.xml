@@ -149,9 +149,15 @@
     android:layout_weight="0"
     android:layout_gravity="center"
     >
+    <Button android:id="@+id/tab_edit_edit"
+      android:layout_width="0dip"
+      android:layout_height="fill_parent"
+      android:layout_weight="1"
+      android:drawableRight="@android:drawable/ic_menu_manage"
+      />
     <Button android:id="@+id/tab_edit_play"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
+      android:layout_width="0dip"
+      android:layout_height="fill_parent"
       android:layout_weight="1"
       android:drawableRight="@android:drawable/ic_media_play"
       />

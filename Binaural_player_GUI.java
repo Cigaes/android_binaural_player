@@ -51,7 +51,6 @@ public class Binaural_player_GUI extends TabActivity
     int play_total_time;
     String play_total_time_s;
     boolean play_paused = false;
-    String sequence;
 
     @Override
     public void onCreate(Bundle state)
@@ -182,6 +181,7 @@ public class Binaural_player_GUI extends TabActivity
     EditText tab_edit_duration;
     EditText tab_edit_pink;
     EditText[] tab_edit_tones;
+    Button tab_edit_button_edit;
     Button tab_edit_button_play;
 
     TextView tab_play_description;
@@ -214,6 +214,8 @@ public class Binaural_player_GUI extends TabActivity
 	tab_edit_tones = new EditText[te_id.length];
 	for(int i = 0; i < te_id.length; i++)
 	    tab_edit_tones[i] = (EditText)findViewById(te_id[i]);
+	tab_edit_button_edit = (Button)findViewById(R.id.tab_edit_edit);
+	tab_edit_button_edit.setOnClickListener(this);
 	tab_edit_button_play = (Button)findViewById(R.id.tab_edit_play);
 	tab_edit_button_play.setOnClickListener(this);
 	tab_play_description =
@@ -282,6 +284,8 @@ public class Binaural_player_GUI extends TabActivity
     public void onClick(View v) {
 	if(v == tab_seq_button_play) {
 	    on_click_seq_play_button();
+	} else if(v == tab_edit_button_edit) {
+	    on_click_edit_edit_button();
 	} else if(v == tab_edit_button_play) {
 	    on_click_edit_play_button();
 	} else if(v == tab_play_button_pause) {
@@ -295,43 +299,28 @@ public class Binaural_player_GUI extends TabActivity
 
     void on_click_seq_play_button()
     {
-	if(sequence == null)
-	    return;
+	String sequence = tab_seq_description.getText().toString();
 	play_sequence(sequence);
+    }
+
+    void on_click_edit_edit_button()
+    {
+	String seq = edit_generate();
+	if(seq != null)
+	    sequence_set(seq);
     }
 
     void on_click_edit_play_button()
     {
-	try {
-	    int dur = Integer.parseInt(tab_edit_duration.getText().toString());
-	    if(dur < 1)
-		return;
-	    String pink = tab_edit_pink.getText().toString();
-	    String decl = "beat:";
-	    if(!pink.equals("0"))
-		decl += " pink/" + pink;
-	    for(int i = 0; i < tab_edit_tones.length; i += 3) {
-		String carrier = tab_edit_tones[i].getText().toString();
-		String beat = tab_edit_tones[i + 1].getText().toString();
-		String vol = tab_edit_tones[i + 2].getText().toString();
-		if(!beat.startsWith("-"))
-		    beat = "+" + beat;
-		if(!vol.equals("0"))
-		    decl += " " + carrier + beat + "/" + vol;
-	    }
-	    int fad = dur - 1;
-	    String fade = String.format("%02d:%02d:00", fad / 60, fad % 60);
-	    String end = String.format("%02d:%02d:00", dur / 60, dur % 60);
-	    String seq = String.format("-SE\n%s\noff: -\nNOW beat\n+%s off\n",
-		decl, end);
+	String seq = edit_generate();
+	if(seq != null)
 	    play_sequence(seq);
-	} catch(Exception e) {
-	    error_dialog_show(e.toString());
-	}
     }
 
     void play_sequence(String sequence)
     {
+	if(sequence == null || sequence.indexOf(':') < 0)
+	    return;
 	Message msg = Message.obtain(null, 'R');
 	Bundle b = new Bundle(1);
 	b.putString("seq", sequence);
@@ -353,14 +342,47 @@ public class Binaural_player_GUI extends TabActivity
 	player_service_send_message(msg);
     }
 
+    String edit_generate()
+    {
+	try {
+	    int dur = Integer.parseInt(tab_edit_duration.getText().toString());
+	    if(dur < 1)
+		return null;
+	    String pink = tab_edit_pink.getText().toString();
+	    String decl = "beat:";
+	    if(!pink.equals("0"))
+		decl += " pink/" + pink;
+	    for(int i = 0; i < tab_edit_tones.length; i += 3) {
+		String carrier = tab_edit_tones[i].getText().toString();
+		String beat = tab_edit_tones[i + 1].getText().toString();
+		String vol = tab_edit_tones[i + 2].getText().toString();
+		if(!beat.startsWith("-"))
+		    beat = "+" + beat;
+		if(!vol.equals("0"))
+		    decl += " " + carrier + beat + "/" + vol;
+	    }
+	    String end = String.format("%02d:%02d:00", dur / 60, dur % 60);
+	    String seq = String.format("%s\noff: -\nNOW beat\n+%s off\n",
+		decl, end);
+	    return seq;
+	} catch(Exception e) {
+	    error_dialog_show(e.toString());
+	    return null;
+	}
+    }
+
+    void sequence_set(String sequence)
+    {
+	tab_seq_description.setText(sequence);
+	tab_host.setCurrentTabByTag("Sequence");
+    }
+
     void sequence_info_load(File file)
     {
 	tab_seq_file_name.setText(file.getName());
 	tab_seq_dir_name.setText(file.getParent());
-	sequence = read_file(file);
-	tab_seq_description.setText(sequence);
-	tab_seq_button_play.setClickable(sequence != null);
-	tab_host.setCurrentTabByTag("Sequence");
+	String sequence = read_file(file);
+	sequence_set(sequence);
     }
 
     void tab_play_set_sequence(String seq, int d)

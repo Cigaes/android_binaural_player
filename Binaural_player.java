@@ -263,7 +263,7 @@ public class Binaural_player extends Service implements Handler.Callback
     int parse_total_time(String seq)
     {
 	String[] lines = seq.split("\n");
-	for(int i = lines.length - 1; i >= 0; i++) {
+	for(int i = lines.length - 1; i >= 0; i--) {
 	    if(lines[i].length() > 0) {
 		sequence_time_parser.reset(lines[i]);
 		if(sequence_time_parser.matches()) {
