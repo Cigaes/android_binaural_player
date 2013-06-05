@@ -1,6 +1,5 @@
 # Binaural player
 # © Nicolas George -- 2010
-# Application graphical user interface
 #
 # This program is free software; you can redistribute it and/or modify it
 # under the terms of the GNU General Public License as published by the
@@ -20,22 +19,26 @@ RESOURCES = \
 	res/layout/tab_edit.xml \
 	res/layout/tab_play.xml
 NATIVE_LIBS = \
-	tmp/libs/armeabi/libsbagen.so
+	tmp/apk/lib/armeabi/libsbagen.so
 CLASSES = \
 	tmp/$(PP)/Binaural_player_GUI.class \
 	tmp/$(PP)/Browser.class \
 	tmp/$(PP)/Binaural_player.class \
 	tmp/$(PP)/Binaural_decoder.class
 
-SDK           = $(HOME)/local/android_sdk-r05
+SDK           = $(HOME)/local/android-sdk
 ANDROID       = $(SDK)/platforms/android-7
-NDK           = $(HOME)/local/android-ndk-r3
+NDK           = $(HOME)/local/android-ndk
+
+HOST_ARCH = $(shell uname -s -m | tr 'A-Z ' a-z-)
+TOOLCHAIN = arm-linux-androideabi-4.7
 
 KEY_DEBUG     = -keystore $(HOME)/.android/debug.keystore \
 	        -storepass android -keypass android
 KEY_RELEASE   = -keystore $(HOME)/.android/cigaes.keystore
 BOOTCLASSPATH = $(ANDROID)/android.jar
-CC            = $(NDK)/build/prebuilt/linux-x86/arm-eabi-4.4.0/bin/arm-eabi-gcc
+TOOLCHAINPATH = $(NDK)/toolchains/$(TOOLCHAIN)/prebuilt/$(HOST_ARCH)/bin
+CC            = $(TOOLCHAINPATH)/arm-linux-androideabi-gcc
 LIBGCC        = $(shell $(CC) -mthumb-interwork -print-libgcc-file-name)
 
 
@@ -45,7 +48,7 @@ JAVA_COMPILE = \
 	$(JAVACFLAGS) $<
 NATIVE_BUILD = \
 	$(CC) \
-	-I$(NDK)/build/platforms/android-3/arch-arm/usr/include \
+	-I$(NDK)/platforms/android-3/arch-arm/usr/include \
 	-fpic -mthumb-interwork -ffunction-sections -funwind-tables \
 	-fstack-protector -fno-short-enums \
 	-D__ARM_ARCH_5__ -D__ARM_ARCH_5T__ -D__ARM_ARCH_5E__ \
@@ -57,13 +60,15 @@ NATIVE_LINK = \
 	$(CC) -nostdlib -Wl,-shared,-Bsymbolic \
 	-o $@ $^ \
 	$(LIBGCC) \
-	$(NDK)/build/platforms/android-3/arch-arm/usr/lib/libc.so \
-	$(NDK)/build/platforms/android-3/arch-arm/usr/lib/libstdc++.so \
-	$(NDK)/build/platforms/android-3/arch-arm/usr/lib/libm.so \
+	$(NDK)/platforms/android-3/arch-arm/usr/lib/libc.so \
+	$(NDK)/platforms/android-3/arch-arm/usr/lib/libstdc++.so \
+	$(NDK)/platforms/android-3/arch-arm/usr/lib/libm.so \
 	-Wl,--no-undefined \
-	-Wl,-rpath-link=$(NDK)/build/platforms/android-3/arch-arm/usr/lib
+	-Wl,-rpath-link=$(NDK)/platforms/android-3/arch-arm/usr/lib
+AAPT_PACKAGE_BUILD_APK = \
+	aapt package -f -M AndroidManifest.xml -S res -I $(BOOTCLASSPATH)
 
-PATH := $(ANDROID)/tools:$(SDK)/tools:$(PATH)
+PATH := $(SDK)/build-tools/android-4.2.2:$(SDK)/tools:$(PATH)
 
 all: $(APP)-debug.apk
 
@@ -83,19 +88,18 @@ tmp/$(PP)/R.java: AndroidManifest.xml $(RESOURCES)
 	-mkdir -p tmp
 	aapt package -m -J tmp -M AndroidManifest.xml -S res -I $(BOOTCLASSPATH)
 
-tmp/$(APP).ap_: AndroidManifest.xml $(RESOURCES)
-	-mkdir -p tmp
-	aapt package -f -M AndroidManifest.xml -S res -I $(BOOTCLASSPATH) -F $@
-
-tmp/classes.dex: $(CLASSES)
+tmp/apk/classes.dex: $(CLASSES)
+	-mkdir -p tmp/apk
 	dx --dex --output=$@ tmp
 
-tmp/$(APP)-debug-unaligned.apk: tmp/$(APP).ap_ tmp/classes.dex $(NATIVE_LIBS)
-	apkbuilder $@ -u -z tmp/$(APP).ap_ -f tmp/classes.dex -nf tmp/libs
+tmp/$(APP)-debug-unaligned.apk: AndroidManifest.xml $(RESOURCES) \
+  	tmp/apk/classes.dex $(NATIVE_LIBS)
+	$(AAPT_PACKAGE_BUILD_APK) -F $@ tmp/apk
 	jarsigner $(KEY_DEBUG) $@ androiddebugkey
 
-tmp/$(APP)-unaligned.apk: tmp/$(APP).ap_ tmp/classes.dex $(NATIVE_LIBS)
-	apkbuilder $@ -u -z tmp/$(APP).ap_ -f tmp/classes.dex -nf tmp/libs
+tmp/$(APP)-unaligned.apk: AndroidManifest.xml $(RESOURCES) \
+	tmp/apk/classes.dex $(NATIVE_LIBS)
+	$(AAPT_PACKAGE_BUILD_APK) -F $@ tmp/apk
 	jarsigner $(KEY_RELEASE) $@ cigaes
 
 %.apk: tmp/%-unaligned.apk
@@ -120,8 +124,8 @@ tmp/$(PP)/Binaural_decoder.class: Binaural_decoder.java
 tmp/$(PP)/Binaural_player_GUI.class: tmp/$(PP)/R.java tmp/$(PP)/Browser.class
 tmp/$(PP)/Binaural_player.class: tmp/$(PP)/Binaural_decoder.class
 
-tmp/libs/armeabi/libsbagen.so: tmp/sbagen.o
-	-mkdir -p tmp/libs/armeabi
+tmp/apk/lib/armeabi/libsbagen.so: tmp/sbagen.o
+	-mkdir -p tmp/apk/lib/armeabi
 	$(NATIVE_LINK)
 
 tmp/sbagen.o: sbagen.c
