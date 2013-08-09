@@ -40,17 +40,17 @@
     android:layout_gravity="center"
     >
     <Button android:id="@+id/tab_play_pause"
-      android:layout_width="wrap_content"
+      android:layout_width="20sp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:drawableTop="@android:drawable/ic_media_pause"
+      android:text="❚❚"
       android:clickable="false"
       />
     <Button android:id="@+id/tab_play_stop"
-      android:layout_width="wrap_content"
+      android:layout_width="20sp"
       android:layout_height="wrap_content"
       android:layout_weight="1"
-      android:drawableTop="@android:drawable/ic_media_next"
+      android:text="■"
       android:clickable="false"
       />
   </LinearLayout>

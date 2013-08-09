@@ -439,12 +439,7 @@ public class Binaural_player_GUI extends TabActivity
     void tab_play_set_pause(boolean pause)
     {
 	play_paused = pause;
-	int id = pause ?
-	    android.R.drawable.ic_media_play :
-	    android.R.drawable.ic_media_pause;
-	Drawable d = getResources().getDrawable(id);
-	tab_play_button_pause.setCompoundDrawablesWithIntrinsicBounds(
-	    null, d, null, null);
+	tab_play_button_pause.setText(pause ? "▶" : "❚❚");
     }
 
     void tab_play_set_time(int t)
