@@ -53,6 +53,7 @@ public class Binaural_player extends Service implements Handler.Callback
     @Override
     public boolean onUnbind(Intent intent)
     {
+	exit_if_finished();
 	return true;
     }
 
@@ -212,8 +213,10 @@ public class Binaural_player extends Service implements Handler.Callback
 	    return;
 	stopForeground(true);
 	while(true) {
+	    warn("reaping decoder");
 	    try {
 		decoder_thread.join();
+		warn("decoder reaped");
 		break;
 	    } catch(InterruptedException e) {
 	    }
@@ -235,8 +238,10 @@ public class Binaural_player extends Service implements Handler.Callback
 
     public void exit_if_finished()
     {
-	if(clients.size() == 0 && decoder == null)
+	if(clients.size() == 0 && decoder == null) {
 	    stopSelf();
+	    System.exit(0);
+	}
     }
 
     void set_foreground()

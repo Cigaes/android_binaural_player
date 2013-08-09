@@ -284,6 +284,8 @@ public class Binaural_player_GUI extends TabActivity
 	} else if(item == menu_item_exit) {
 	    on_click_stop_button();
 	    finish();
+	    player_service_disconnect();
+	    System.exit(0);
 	} else {
 	    warn("Unknown menu item selected: %s", item.getTitle());
 	}

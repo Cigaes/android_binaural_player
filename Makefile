@@ -60,6 +60,7 @@ NATIVE_LINK = \
 	$(CC) -nostdlib -Wl,-shared,-Bsymbolic \
 	-o $@ $^ \
 	$(LIBGCC) \
+	$(NDK)/platforms/android-3/arch-arm/usr/lib/liblog.so \
 	$(NDK)/platforms/android-3/arch-arm/usr/lib/libc.so \
 	$(NDK)/platforms/android-3/arch-arm/usr/lib/libstdc++.so \
 	$(NDK)/platforms/android-3/arch-arm/usr/lib/libm.so \

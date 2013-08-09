@@ -1723,6 +1723,7 @@ sbagen_get_error(void)
 
 #include <assert.h>
 #include <jni.h>
+#include <android/log.h>
 #include "tmp/sbagen.h"
 
 static void
@@ -1830,6 +1831,7 @@ Java_org_cigaes_binaural_1player_Binaural_1decoder_sbagen_1run(
 {
     jclass class;
 
+    __android_log_print(ANDROID_LOG_INFO, "sbagen", "sbagen started");
     output_env = env;
     output_self = self;
     class = (*env)->GetObjectClass(env, self);
@@ -1837,6 +1839,7 @@ Java_org_cigaes_binaural_1player_Binaural_1decoder_sbagen_1run(
     assert(output_method != NULL);
     if(sbagen_run() < 0)
 	die(env, 'A');
+    __android_log_print(ANDROID_LOG_INFO, "sbagen", "sbagen finished");
 }
 
 #elif BUILD_STANDALONE_TEST
