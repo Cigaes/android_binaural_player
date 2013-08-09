@@ -90,6 +90,7 @@ tmp/$(PP)/R.java: AndroidManifest.xml $(RESOURCES)
 
 tmp/apk/classes.dex: $(CLASSES)
 	-mkdir -p tmp/apk
+	rm -f tmp/Binaural_player-debug-unaligned.apk
 	dx --dex --output=$@ tmp
 
 tmp/$(APP)-debug-unaligned.apk: AndroidManifest.xml $(RESOURCES) \
