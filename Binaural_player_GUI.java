@@ -488,8 +488,8 @@ public class Binaural_player_GUI extends TabActivity
 	if (filtered.startsWith("sbg_script_options\n")) {
 	    String[] lines = filtered.substring(19).split("\n");
 	    shell_script_configure(file, lines);
-	} else if (filtered.startsWith("sbg_script -SE\n")) {
-	    sequence_set(filtered.substring(11));
+	} else if (filtered.startsWith("-SE\n")) {
+	    sequence_set(filtered);
 	} else {
 	    int l = filtered.length();
 	    error_dialog_show("Invalid script output:\n" +
