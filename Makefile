@@ -45,7 +45,7 @@ LIBGCC        = $(shell $(CC) -mthumb-interwork -print-libgcc-file-name)
 JAVA_COMPILE = \
 	LC_CTYPE=en_US.UTF-8 \
 	javac -g -bootclasspath $(BOOTCLASSPATH) -classpath tmp -d tmp \
-	$(JAVACFLAGS) $<
+	-source 1.7 -target 1.7 $(JAVACFLAGS) $<
 NATIVE_BUILD = \
 	$(CC) \
 	-I$(NDK)/platforms/android-3/arch-arm/usr/include \
@@ -60,10 +60,11 @@ NATIVE_LINK = \
 	$(CC) -nostdlib -Wl,-shared,-Bsymbolic \
 	-o $@ $^ \
 	$(LIBGCC) \
-	$(NDK)/platforms/android-3/arch-arm/usr/lib/liblog.so \
-	$(NDK)/platforms/android-3/arch-arm/usr/lib/libc.so \
-	$(NDK)/platforms/android-3/arch-arm/usr/lib/libstdc++.so \
-	$(NDK)/platforms/android-3/arch-arm/usr/lib/libm.so \
+	-L$(NDK)/platforms/android-3/arch-arm/usr/lib \
+	-llog \
+	-lc \
+	-lstdc++ \
+	-lm \
 	-Wl,--no-undefined \
 	-Wl,-rpath-link=$(NDK)/platforms/android-3/arch-arm/usr/lib
 AAPT_PACKAGE_BUILD_APK = \
